@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="FocusGuard acompaña tus bloques de estudio: detecta señales de fatiga y sobrecarga, sugiere pausas oportunas y respeta tu autonomía. Procesamiento local, sin vigilancia.">
+<meta name="theme-color" content="#f8f9ff">
+<title>FocusGuard — Estudia con foco y descansa a tiempo</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="assets/images/logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap">
+<link rel="stylesheet" href="assets/styles/styles.css">
+<script src="assets/scripts/components.js" defer></script>
+<script src="assets/scripts/navigation.js" defer></script>
+<script src="assets/scripts/validation.js" defer></script>
+<script src="assets/scripts/landing.js" defer></script>
+<script src="assets/scripts/main.js" defer></script>
+</head>
+<body data-page="landing">
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+<!-- sprite:inline -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true" focusable="false"><!--
+  Sprite de iconos de FocusGuard.
+  Trazo de 1.75 heredado de la clase .icon (stroke: currentColor).
+  Uso:  <svg class="icon" aria-hidden="true"><use href="#check"></use></svg>
+  Este archivo es la fuente única; cada página lo incluye en línea
+  para que los iconos también funcionen al abrir el HTML sin servidor.
+-->
+<symbol id="check" viewBox="0 0 24 24"><path d="M4.5 12.5l4.5 4.5L19.5 6.5"/></symbol>
+<symbol id="check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.2l2.6 2.6L16 9.4"/></symbol>
+<symbol id="close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+<symbol id="arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+<symbol id="download" viewBox="0 0 24 24"><path d="M12 4v11M8 11l4 4 4-4M5 19h14"/></symbol>
+<symbol id="play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5z"/></symbol>
+<symbol id="mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 7.5l8.5 5.5 8.5-5.5"/></symbol>
+<symbol id="lock" viewBox="0 0 24 24"><rect x="4.5" y="10" width="15" height="10" rx="2.5"/><path d="M8 10V8a4 4 0 0 1 8 0v2"/></symbol>
+<symbol id="eye" viewBox="0 0 24 24"><path d="M2.5 12S6 6.5 12 6.5 21.5 12 21.5 12 18 17.5 12 17.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.5"/></symbol>
+<symbol id="eye-off" viewBox="0 0 24 24"><path d="M4 4l16 16"/><path d="M9.5 9.6A2.5 2.5 0 0 0 12 14.5c.6 0 1.2-.2 1.7-.6"/><path d="M6.3 7.7C4 9.4 2.5 12 2.5 12S6 17.5 12 17.5c1.5 0 2.8-.3 4-.8M17.3 15c2-1.6 4.2-3 4.2-3S18 6.5 12 6.5c-.8 0-1.6.1-2.3.3"/></symbol>
+<symbol id="shield" viewBox="0 0 24 24"><path d="M12 3l7.5 3v6c0 4.8-3.2 8-7.5 9.5C7.7 20 4.5 16.8 4.5 12V6z"/></symbol>
+<symbol id="shield-check" viewBox="0 0 24 24"><path d="M12 3l7.5 3v6c0 4.8-3.2 8-7.5 9.5C7.7 20 4.5 16.8 4.5 12V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></symbol>
+<symbol id="star" viewBox="0 0 24 24"><path d="M12 3.6l2.6 5.2 5.7.8-4.1 4 1 5.7-5.2-2.7-5.2 2.7 1-5.7-4.1-4 5.7-.8z"/></symbol>
+<symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.2 2"/></symbol>
+<symbol id="hourglass" viewBox="0 0 24 24"><path d="M7 3.5h10M7 20.5h10M8 3.5v3l4 5 4-5v-3M8 20.5v-3l4-5 4 5v3"/></symbol>
+<symbol id="leaf" viewBox="0 0 24 24"><path d="M20 4C10.5 4 4.5 9.5 4.5 18.5c9 .5 15.5-5 15.5-14.5z"/><path d="M5 19.5c3.5-6 7.5-8.5 12-10.5"/></symbol>
+<symbol id="mind" viewBox="0 0 24 24"><path d="M12 3a6.5 6.5 0 0 0-4 11.6V17h8v-2.4A6.5 6.5 0 0 0 12 3z"/><path d="M9.5 20.5h5"/></symbol>
+<symbol id="heart" viewBox="0 0 24 24"><path d="M12 20s-7.2-4.4-7.2-9.2A4.2 4.2 0 0 1 12 8.3a4.2 4.2 0 0 1 7.2 2.5C19.2 15.6 12 20 12 20z"/></symbol>
+<symbol id="activity" viewBox="0 0 24 24"><path d="M3.5 16.5l4.5-5 3.5 3.5 6-8"/><path d="M13.5 7h4v4"/><path d="M3.5 20.5h17"/></symbol>
+<symbol id="headphones" viewBox="0 0 24 24"><path d="M4.5 14.5v-2a7.5 7.5 0 0 1 15 0v2"/><rect x="3" y="14" width="4" height="6" rx="2"/><rect x="17" y="14" width="4" height="6" rx="2"/></symbol>
+<symbol id="waves" viewBox="0 0 24 24"><path d="M3 12h2.5l2-5 3 10 3-12 2.5 7H21"/></symbol>
+<symbol id="school" viewBox="0 0 24 24"><path d="M2.5 8.5L12 4.5l9.5 4-9.5 4z"/><path d="M6.5 11v4.3c0 1.7 2.6 3.2 5.5 3.2s5.5-1.5 5.5-3.2V11"/></symbol>
+<symbol id="user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1.4-3.3 4-5 7-5s5.6 1.7 7 5"/></symbol>
+<symbol id="book" viewBox="0 0 24 24"><path d="M5 4.5h8.5a3 3 0 0 1 3 3v12H8a3 3 0 0 1-3-3z"/><path d="M16.5 7.5h2.5v12"/></symbol>
+<symbol id="verified" viewBox="0 0 24 24"><path d="M12 3l2.1 2h2.9v2.9l2 2.1-2 2.1V15h-2.9L12 17l-2.1-2H7v-2.9L5 10l2-2.1V5h2.9z"/><path d="M9.5 10.2l1.8 1.8 3.2-3.4"/></symbol>
+<symbol id="chevron-down" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5"/></symbol>
+<symbol id="smartphone" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 18h2"/></symbol>
+<symbol id="laptop" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="10" rx="1.5"/><path d="M3 19h18"/></symbol>
+<symbol id="wand" viewBox="0 0 24 24"><path d="M5 19l9-9"/><path d="M13.5 6.5l4 4"/><path d="M17 3l.9 2.1 2.1.9-2.1.9L17 9l-.9-2.1-2.1-.9 2.1-.9z"/></symbol>
+<symbol id="alert-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.2h.01"/></symbol>
+<symbol id="info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8h.01"/></symbol>
+<symbol id="building" viewBox="0 0 24 24"><path d="M4.5 20.5V8L12 4l7.5 4v12.5"/><path d="M9.5 20.5V16h5v4.5"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01"/></symbol>
+<symbol id="zap" viewBox="0 0 24 24"><path d="M13 3L6 13.5h5l-1 7.5 7-10.5h-5z"/></symbol>
+<symbol id="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></symbol>
+<symbol id="target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6"/></symbol>
+<symbol id="refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.4-5.7"/><path d="M20 4v4h-4"/></symbol>
+</svg>
+
+<header class="site-header" id="cabecera">
+  <div class="container site-header__inner">
+    <a class="brand" href="index.html" aria-label="FocusGuard, ir al inicio">
+      <img class="brand__mark" src="assets/images/logo.png" alt="" width="32" height="32">
+      <span class="brand__name">FocusGuard</span>
+    </a>
+
+    <nav class="site-nav" id="navegacion-principal" aria-label="Secciones de la página">
+      <ul class="site-nav__list">
+        <li><a class="site-nav__link" href="#caracteristicas" data-nav-link>Características</a></li>
+        <li><a class="site-nav__link" href="#como-funciona" data-nav-link>Cómo funciona</a></li>
+        <li><a class="site-nav__link" href="#ciencia-y-etica" data-nav-link>Ciencia y ética</a></li>
+        <li><a class="site-nav__link" href="#precios" data-nav-link>Planes y precios</a></li>
+        <li><a class="site-nav__link" href="#testimonios" data-nav-link>Testimonios</a></li>
+        <li><a class="site-nav__link" href="#descargar" data-nav-link>Descargar</a></li>
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <a class="btn btn--ghost btn--sm site-header__login" href="iniciar-sesion.html">Iniciar sesión</a>
+      <a class="btn btn--primary btn--sm" href="registrarse.html"><span class="btn__label-full">Crear cuenta gratis</span><span class="btn__label-short">Crear cuenta</span></a>
+      <button class="btn-icon nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="menu-movil">
+        <svg class="icon" aria-hidden="true"><use href="#menu"></use></svg>
+        <span class="visually-hidden">Abrir menú de navegación</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Menú lateral para pantallas pequeñas -->
+<div class="drawer" id="menu-movil" role="dialog" aria-modal="true" aria-label="Menú de navegación" hidden>
+  <div class="drawer__backdrop" data-drawer-close></div>
+  <div class="drawer__panel">
+    <div class="drawer__head">
+      <span class="brand__name">Navegación</span>
+      <button class="btn-icon" type="button" data-drawer-close>
+        <svg class="icon" aria-hidden="true"><use href="#close"></use></svg>
+        <span class="visually-hidden">Cerrar menú</span>
+      </button>
+    </div>
+    <nav aria-label="Secciones de la página (móvil)">
+      <ul class="drawer__list">
+        <li><a class="drawer__link" href="#caracteristicas" data-nav-link><svg class="icon" aria-hidden="true"><use href="#target"></use></svg>Características</a></li>
+        <li><a class="drawer__link" href="#como-funciona" data-nav-link><svg class="icon" aria-hidden="true"><use href="#refresh"></use></svg>Cómo funciona</a></li>
+        <li><a class="drawer__link" href="#ciencia-y-etica" data-nav-link><svg class="icon" aria-hidden="true"><use href="#shield-check"></use></svg>Ciencia y ética</a></li>
+        <li><a class="drawer__link" href="#precios" data-nav-link><svg class="icon" aria-hidden="true"><use href="#activity"></use></svg>Planes y precios</a></li>
+        <li><a class="drawer__link" href="#testimonios" data-nav-link><svg class="icon" aria-hidden="true"><use href="#star"></use></svg>Testimonios</a></li>
+        <li><a class="drawer__link" href="#descargar" data-nav-link><svg class="icon" aria-hidden="true"><use href="#download"></use></svg>Descargar</a></li>
+      </ul>
+    </nav>
+    <div class="stack">
+      <a class="btn btn--primary btn--block" href="registrarse.html">Crear cuenta gratis</a>
+      <a class="btn btn--outline btn--block" href="iniciar-sesion.html">Iniciar sesión</a>
+    </div>
+  </div>
+</div>
+
+<main id="contenido">
+
+  <!-- ===================== 1. PORTADA ===================== -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__intro">
+        <p class="chip chip--lowest">
+          <svg class="icon icon--sm" aria-hidden="true"><use href="#verified"></use></svg>
+          Para estudiantes universitarios · Enfoque cognitivo ético
+        </p>
+        <h1 class="hero__title">Estudia mejor. Descansa cuando lo necesitas.</h1>
+        <p class="hero__lead">
+          FocusGuard acompaña tus bloques de estudio detectando patrones de fatiga y sobrecarga
+          para sugerirte pausas oportunas. Sin juicios, sin bloqueos agresivos y con tu autonomía intacta.
+        </p>
+        <div class="cluster cluster--actions hero__actions">
+          <a class="btn btn--primary" href="#descargar">
+            <svg class="icon" aria-hidden="true"><use href="#download"></use></svg>
+            Descargar gratis para iOS y Android
+          </a>
+          <button class="btn btn--outline" type="button" id="ver-demo">
+            <svg class="icon" aria-hidden="true"><use href="#play"></use></svg>
+            Ver cómo funciona (2 min)
+          </button>
+        </div>
+        <ul class="hero__trust">
+          <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Privacidad en tu dispositivo</li>
+          <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Sin diagnósticos médicos ni vigilancia</li>
+          <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Gratis para estudiantes</li>
+        </ul>
+      </div>
+
+      <!-- Vista previa de una sesión real de estudio -->
+      <div class="hero__preview">
+        <div class="preview">
+          <article class="preview__timer" aria-label="Sesión de estudio en curso">
+            <div class="preview__timer-head">
+              <span class="chip">Cálculo multivariable</span>
+              <span class="preview__sound">
+                <svg class="icon icon--sm" aria-hidden="true"><use href="#waves"></use></svg>
+                Brisa templada
+              </span>
+            </div>
+            <div class="dial">
+              <svg class="dial__ring" viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="dial__track" cx="60" cy="60" r="52"></circle>
+                <circle class="dial__progress" cx="60" cy="60" r="52" transform="rotate(-90 60 60)"></circle>
+              </svg>
+              <div class="dial__value">
+                <p class="dial__time">32:43</p>
+                <p class="dial__label">Bloque de 50 min</p>
+              </div>
+            </div>
+            <dl class="preview__stats">
+              <div><dt>Interrupciones</dt><dd>2</dd></div>
+              <div><dt>Frecuencia</dt><dd>Baja</dd></div>
+              <div><dt>Siguiente pausa</dt><dd>17 min</dd></div>
+            </dl>
+          </article>
+
+          <article class="preview__nudge">
+            <p class="chip chip--amber">Aviso respetuoso</p>
+            <h2 class="preview__nudge-title">Parece que tu concentración está bajando</h2>
+            <p class="text-muted">
+              Detectamos cambios rápidos de pestaña en los últimos 7 minutos.
+              Te sugerimos una pausa de 5 minutos con descanso visual.
+            </p>
+            <div class="stack preview__nudge-actions">
+              <button class="btn btn--secondary btn--sm" type="button" data-demo-action="pausa">
+                <svg class="icon icon--sm" aria-hidden="true"><use href="#leaf"></use></svg>
+                Tomar pausa (5 min)
+              </button>
+              <button class="btn btn--ghost btn--sm" type="button" data-demo-action="continuar">Continuar estudiando (10 min más)</button>
+            </div>
+            <p class="preview__nudge-foot">
+              <svg class="icon icon--sm" aria-hidden="true"><use href="#shield-check"></use></svg>
+              Procesamiento local · Cero datos en la nube
+            </p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 2. PRUEBA SOCIAL ===================== -->
+  <section class="section section--panel" id="universidades" aria-labelledby="universidades-titulo">
+    <div class="container">
+      <h2 class="proof__title" id="universidades-titulo">
+        Estudiantes de más de 45 universidades lo usan para rendir sin quemarse
+      </h2>
+      <ul class="proof__faculties">
+        <li class="chip chip--outline"><svg class="icon icon--sm" aria-hidden="true"><use href="#target"></use></svg>Ingeniería</li>
+        <li class="chip chip--outline"><svg class="icon icon--sm" aria-hidden="true"><use href="#heart"></use></svg>Medicina</li>
+        <li class="chip chip--outline"><svg class="icon icon--sm" aria-hidden="true"><use href="#laptop"></use></svg>Ciencias de la computación</li>
+        <li class="chip chip--outline"><svg class="icon icon--sm" aria-hidden="true"><use href="#book"></use></svg>Derecho</li>
+        <li class="chip chip--outline"><svg class="icon icon--sm" aria-hidden="true"><use href="#activity"></use></svg>Economía</li>
+        <li class="chip chip--outline"><svg class="icon icon--sm" aria-hidden="true"><use href="#building"></use></svg>Arquitectura</li>
+      </ul>
+      <dl class="proof__figures grid grid--auto">
+        <div class="card card--flat card--tinted">
+          <dt class="stat__label">Horas de estudio consciente</dt>
+          <dd>
+            <p class="stat__value">+120 000</p>
+            <p class="stat__note">Sesiones completadas respetando el ritmo fisiológico.</p>
+          </dd>
+        </div>
+        <div class="card card--flat card--tinted">
+          <dt class="stat__label">Calificación en la App Store</dt>
+          <dd>
+            <p class="stat__value">4,9 / 5</p>
+            <p class="rating" role="img" aria-label="4,9 sobre 5 estrellas">
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+            </p>
+            <p class="stat__note">Basado en más de 3 400 reseñas de universitarios.</p>
+          </dd>
+        </div>
+        <div class="card card--flat card--tinted">
+          <dt class="stat__label">Sensación de fatiga mental</dt>
+          <dd>
+            <p class="stat__value">−38 %</p>
+            <p class="stat__note">Reportado por estudiantes en periodos de exámenes finales.</p>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ===================== 3. CÓMO FUNCIONA ===================== -->
+  <section class="section" id="como-funciona" aria-labelledby="como-funciona-titulo">
+    <div class="container">
+      <div class="section__head">
+        <p class="chip">Metodología comprobada</p>
+        <h2 id="como-funciona-titulo">El ciclo de estudio respetuoso</h2>
+        <p class="section__lead">
+          Tres pasos diseñados con ergonomía cognitiva para estudiar a fondo sin sobrecargar tu memoria de trabajo.
+        </p>
+      </div>
+      <ol class="steps grid grid--auto">
+        <li class="card step">
+          <p class="step__number">Paso 1</p>
+          <h3 class="card__title">Configura tu ritmo</h3>
+          <p class="card__text">
+            Elige tu materia y define tu bloque de concentración y la duración de la pausa reparadora.
+          </p>
+          <p class="step__meta">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#clock"></use></svg>
+            Ritmo recomendado: 50 min de foco / 10 min de pausa
+          </p>
+        </li>
+        <li class="card step">
+          <p class="step__number">Paso 2</p>
+          <h3 class="card__title">Enfócate con asistencia silenciosa</h3>
+          <p class="card__text">
+            Lectura respetuosa de interrupciones y cambios de contexto en tiempo real, sin bloqueos de pantalla.
+          </p>
+          <p class="step__meta">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#eye-off"></use></svg>
+            Detección de patrones sin capturar el contenido de tus archivos
+          </p>
+        </li>
+        <li class="card step">
+          <p class="step__number">Paso 3</p>
+          <h3 class="card__title">Descansa y evalúa con calma</h3>
+          <p class="card__text">
+            Pausas guiadas con respiración 20-20 y un repaso restaurativo. Reflexionas sobre tu energía sin puntuaciones que castiguen.
+          </p>
+          <p class="step__meta">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#leaf"></use></svg>
+            Ciclo ocular 20-20 · 5:00 min
+          </p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================== 4. CARACTERÍSTICAS ===================== -->
+  <section class="section section--tinted" id="caracteristicas" aria-labelledby="caracteristicas-titulo">
+    <div class="container">
+      <div class="section__head">
+        <p class="chip">Herramientas conscientes</p>
+        <h2 id="caracteristicas-titulo">Pilares diseñados para tu bienestar</h2>
+        <p class="section__lead">
+          Tecnología apoyada en neurociencia para acompañar tu rendimiento académico sin generar ansiedad ni fatiga crónica.
+        </p>
+      </div>
+
+      <div class="features">
+        <article class="card card--raised feature feature--wide">
+          <span class="icon-badge"><svg class="icon" aria-hidden="true"><use href="#hourglass"></use></svg></span>
+          <h3 class="card__title">Temporizador de inmersión sin distracciones</h3>
+          <p class="card__text">
+            Minimalismo puro para mantener el flujo de estudio, con paisajes sonoros calibrados
+            (lluvia suave, brisa templada, biblioteca vacía) y ninguna interfaz recargada.
+          </p>
+          <div class="feature__panel">
+            <p class="stat__label">Generador de ruido rosa</p>
+            <p class="stat__note">Estabiliza la atención sostenida durante bloques largos.</p>
+            <ul class="cluster feature__tags">
+              <li class="chip chip--outline">Lluvia</li>
+              <li class="chip chip--outline">Brisa</li>
+              <li class="chip chip--outline">Cafetería</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card card--raised feature">
+          <span class="icon-badge"><svg class="icon" aria-hidden="true"><use href="#mind"></use></svg></span>
+          <h3 class="card__title">Detección de sobrecarga</h3>
+          <p class="card__text">
+            Algoritmos éticos que reconocen cuándo tu atención decae a partir de los cambios de tarea y te avisan con empatía.
+          </p>
+          <blockquote class="feature__quote">
+            <p>«Tu mente parece necesitar un respiro. ¿Tomamos 5 minutos?»</p>
+            <footer class="stat__note">Ejemplo de notificación amable</footer>
+          </blockquote>
+        </article>
+
+        <article class="card card--raised feature">
+          <span class="icon-badge icon-badge--mint"><svg class="icon" aria-hidden="true"><use href="#leaf"></use></svg></span>
+          <h3 class="card__title">Pausas restaurativas adaptativas</h3>
+          <p class="card__text">
+            Micro-descansos de 5 minutos con respiración guiada, hidratación consciente y relajación ocular para resetear la memoria de trabajo.
+          </p>
+          <p class="feature__note">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#check-circle"></use></svg>
+            Protocolo 20-20-20
+          </p>
+        </article>
+
+        <article class="card card--raised feature">
+          <span class="icon-badge"><svg class="icon" aria-hidden="true"><use href="#shield"></use></svg></span>
+          <h3 class="card__title">Autonomía y privacidad innegociables</h3>
+          <p class="card__text">
+            Tú decides si aceptas la sugerencia o sigues estudiando. Tus métricas no se comparten, no se monetizan ni se usan para diagnósticos.
+          </p>
+          <p class="feature__note">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#lock"></use></svg>
+            Almacenamiento 100 % en tu dispositivo
+          </p>
+        </article>
+
+        <article class="card card--raised feature">
+          <span class="icon-badge"><svg class="icon" aria-hidden="true"><use href="#activity"></use></svg></span>
+          <h3 class="card__title">Métricas y ritmo de progreso</h3>
+          <p class="card__text">
+            Descubre tus momentos de mayor claridad —«tus sesiones son un 24 % más constantes por la tarde»— y cuida tus rachas sin culpa.
+          </p>
+          <p class="feature__note">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#activity"></use></svg>
+            Análisis semanal respetuoso
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 5. CIENCIA Y ÉTICA ===================== -->
+  <section class="section" id="ciencia-y-etica" aria-labelledby="ciencia-titulo">
+    <div class="container">
+      <div class="section__head">
+        <p class="chip">Comparativa transparente</p>
+        <h2 id="ciencia-titulo">Por qué FocusGuard es diferente</h2>
+        <p class="section__lead">
+          Creemos en el refuerzo positivo y en la autonomía del estudiante, no en la vigilancia coercitiva.
+        </p>
+      </div>
+
+      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="ciencia-titulo">
+        <table class="table">
+          <caption class="visually-hidden">
+            Comparación entre FocusGuard y las aplicaciones tradicionales de productividad en cuatro criterios éticos.
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Criterio ético</th>
+              <th scope="col">Con FocusGuard</th>
+              <th scope="col">Otras apps tradicionales</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row" class="table__row-title">Respeto a la autonomía</th>
+              <td class="table__cell--good">Sugerencias amables y flexibles que puedes posponer o descartar.</td>
+              <td class="table__cell--other">Bloqueos forzados de pantalla que generan frustración y estrés.</td>
+            </tr>
+            <tr>
+              <th scope="row" class="table__row-title">Tono y comunicación</th>
+              <td class="table__cell--good">Lenguaje constructivo centrado en restaurar energía y concentración.</td>
+              <td class="table__cell--other">Alarmas, diagnósticos falsos o penalizaciones por perder la racha.</td>
+            </tr>
+            <tr>
+              <th scope="row" class="table__row-title">Privacidad y datos</th>
+              <td class="table__cell--good">Almacenamiento estrictamente local en tu teléfono o portátil.</td>
+              <td class="table__cell--other">Envío de telemetría, capturas y hábitos a servidores corporativos.</td>
+            </tr>
+            <tr>
+              <th scope="row" class="table__row-title">Base metodológica</th>
+              <td class="table__cell--good">Diseñado junto a psicólogos educativos y especialistas en neuroergonomía.</td>
+              <td class="table__cell--other">Gamificación de hiperproductividad apoyada en la culpa.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-small text-muted table-hint">Desliza la tabla en horizontal para ver todas las columnas.</p>
+    </div>
+  </section>
+
+  <!-- ===================== 6. TESTIMONIOS ===================== -->
+  <section class="section section--tinted" id="testimonios" aria-labelledby="testimonios-titulo">
+    <div class="container">
+      <div class="section__head">
+        <p class="chip">Experiencias reales</p>
+        <h2 id="testimonios-titulo">Lo que dicen los universitarios</h2>
+        <p class="section__lead">Estudiantes contando cómo equilibraron jornadas académicas largas.</p>
+      </div>
+      <ul class="grid grid--auto">
+        <li>
+          <article class="card testimonial">
+            <p class="rating" role="img" aria-label="5 de 5 estrellas">
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+            </p>
+            <blockquote class="testimonial__quote">
+              «FocusGuard me salvó durante los exámenes de Cálculo II. El recordatorio de descanso justo cuando
+              empezaba a dispersarme me permitió estudiar cuatro horas seguidas sin dolor de cabeza.»
+            </blockquote>
+            <footer class="testimonial__author">
+              <img class="avatar" src="assets/images/testimonio-arturo.jpg" alt="Foto de Arturo M." width="48" height="48" loading="lazy" decoding="async">
+              <span>
+                <span class="stat__label">Arturo M.</span>
+                <span class="stat__note">Ingeniería de Software, 4.º año</span>
+              </span>
+            </footer>
+          </article>
+        </li>
+        <li>
+          <article class="card testimonial">
+            <p class="rating" role="img" aria-label="5 de 5 estrellas">
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+            </p>
+            <blockquote class="testimonial__quote">
+              «Por fin una app que no me hace sentir culpable si no llego al 100 %. Las pausas de cinco minutos
+              con la regla 20-20 cambiaron por completo mi agotamiento visual estudiando farmacología.»
+            </blockquote>
+            <footer class="testimonial__author">
+              <img class="avatar" src="assets/images/testimonio-santiago.jpg" alt="Foto de Santiago V." width="48" height="48" loading="lazy" decoding="async">
+              <span>
+                <span class="stat__label">Santiago V.</span>
+                <span class="stat__note">Facultad de Medicina, 5.º año</span>
+              </span>
+            </footer>
+          </article>
+        </li>
+        <li>
+          <article class="card testimonial">
+            <p class="rating" role="img" aria-label="5 de 5 estrellas">
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+              <svg class="icon" aria-hidden="true"><use href="#star"></use></svg>
+            </p>
+            <blockquote class="testimonial__quote">
+              «El diseño es limpio y no invasivo. La sugerencia adaptativa sabe exactamente cuándo necesito
+              respirar antes de perder el hilo de mis lecturas de derecho civil.»
+            </blockquote>
+            <footer class="testimonial__author">
+              <img class="avatar" src="assets/images/testimonio-mateo.jpg" alt="Foto de Mateo R." width="48" height="48" loading="lazy" decoding="async">
+              <span>
+                <span class="stat__label">Mateo R.</span>
+                <span class="stat__note">Derecho y Ciencias Sociales</span>
+              </span>
+            </footer>
+          </article>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================== 7. PLANES Y PRECIOS ===================== -->
+  <section class="section" id="precios" aria-labelledby="precios-titulo">
+    <div class="container">
+      <div class="section__head">
+        <p class="chip chip--mint">
+          <svg class="icon icon--sm" aria-hidden="true"><use href="#verified"></use></svg>
+          Planes transparentes · Sin permanencia
+        </p>
+        <h2 id="precios-titulo">Inversión en tu bienestar cognitivo</h2>
+        <p class="section__lead">
+          Empieza gratis con todas las funciones esenciales. Amplía la analítica avanzada o lleva FocusGuard a toda tu facultad.
+        </p>
+      </div>
+
+      <div class="billing" role="group" aria-labelledby="billing-titulo">
+        <p class="visually-hidden" id="billing-titulo">Periodicidad de facturación</p>
+        <div class="billing__switch">
+          <button class="billing__option is-selected" type="button" data-billing="mensual" aria-pressed="true">Mensual</button>
+          <button class="billing__option" type="button" data-billing="anual" aria-pressed="false">Anual</button>
+        </div>
+        <p class="chip chip--mint billing__hint">Ahorra un 20 % + 2 meses gratis</p>
+      </div>
+      <p class="visually-hidden" role="status" id="billing-status"></p>
+
+      <div class="plans grid grid--auto-wide">
+        <article class="card plan">
+          <p class="chip chip--outline">Básico esencial</p>
+          <h3 class="plan__name">Estudiante gratuito</h3>
+          <p class="card__text">Para estudiar a tu ritmo con privacidad total.</p>
+          <p class="plan__price"><span class="plan__amount" data-price-mensual="S/ 0" data-price-anual="S/ 0">S/ 0</span>
+            <span class="plan__period" data-period-mensual="siempre gratis" data-period-anual="siempre gratis">siempre gratis</span>
+          </p>
+          <ul class="plan__features">
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Sesiones y bloques de estudio ilimitados</li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Temporizador y detección adaptativa de sobrecarga</li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Pausas restaurativas guiadas (regla 20-20-20)</li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Historial local de las últimas dos semanas</li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Dos paisajes sonoros binaurales</li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#lock"></use></svg>Privacidad garantizada en tu dispositivo</li>
+          </ul>
+          <a class="btn btn--outline btn--block" href="registrarse.html">Comenzar gratis</a>
+          <p class="stat__note plan__foot">No pedimos tarjeta de crédito.</p>
+        </article>
+
+        <article class="card plan plan--featured">
+          <p class="chip chip--mint">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#star"></use></svg>
+            El más elegido
+          </p>
+          <h3 class="plan__name">Estudiante Pro</h3>
+          <p class="card__text">Para semestres exigentes, oposiciones y tesis.</p>
+          <p class="plan__price">
+            <span class="plan__amount" data-price-mensual="S/ 14.90" data-price-anual="S/ 11.92">S/ 14.90</span>
+            <span class="plan__period" data-period-mensual="al mes" data-period-anual="al mes, facturado anualmente">al mes</span>
+          </p>
+          <p class="stat__note plan__note" data-note-mensual="O S/ 143 al año si eliges facturación anual (ahorras S/ 35.80)." data-note-anual="S/ 143 al año facturados de una vez (ahorras S/ 35.80).">
+            O S/ 143 al año si eliges facturación anual (ahorras S/ 35.80).
+          </p>
+          <ul class="plan__features">
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check-circle"></use></svg>Todo lo del plan gratuito</li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Historial y analítica semestral ilimitada</li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Detección de fatiga con calibración personalizada</li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>18 ambientes sonoros y ruido rosa calibrado</li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Sincronización cifrada entre móvil, tablet y escritorio</li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Exportación en PDF o CSV para tutorías</li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Soporte prioritario académico</li>
+          </ul>
+          <a class="btn btn--primary btn--block" href="registrarse.html">
+            Probar 14 días gratis
+            <svg class="icon" aria-hidden="true"><use href="#arrow-right"></use></svg>
+          </a>
+          <p class="stat__note plan__foot">Cancelas cuando quieras, en un clic.</p>
+        </article>
+
+        <article class="card plan">
+          <p class="chip chip--outline">Institucional</p>
+          <h3 class="plan__name">Campus y facultades</h3>
+          <p class="card__text">Para departamentos de orientación, facultades y grupos de investigación.</p>
+          <p class="plan__price">
+            <span class="plan__amount" data-price-mensual="S/ 6.50" data-price-anual="S/ 5.20">S/ 6.50</span>
+            <span class="plan__period" data-period-mensual="por estudiante y mes" data-period-anual="por estudiante y mes, facturado anualmente">por estudiante y mes</span>
+          </p>
+          <ul class="plan__features">
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Licencias ilimitadas para alumnado y docentes</li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Panel agregado y anónimo de bienestar (sin datos individuales)</li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Talleres de ergonomía de estudio y prevención del agotamiento</li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Integración con Canvas, Moodle y Google Classroom</li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Acuerdo de privacidad institucional</li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#check"></use></svg>Gestor de cuenta y puesta en marcha dedicada</li>
+          </ul>
+          <button class="btn btn--outline btn--block" type="button" id="solicitar-demo">Solicitar demostración</button>
+          <p class="stat__note plan__foot">Facturación institucional para centros educativos.</p>
+        </article>
+      </div>
+
+      <div class="guarantee grid grid--auto">
+        <p class="guarantee__item">
+          <span class="icon-badge icon-badge--mint"><svg class="icon" aria-hidden="true"><use href="#school"></use></svg></span>
+          <span>
+            <span class="stat__label">Descuento con correo .edu activo</span>
+            <span class="stat__note">Verificación instantánea a través de tu universidad, sin trámites.</span>
+          </span>
+        </p>
+        <p class="guarantee__item">
+          <span class="icon-badge"><svg class="icon" aria-hidden="true"><use href="#shield-check"></use></svg></span>
+          <span>
+            <span class="stat__label">Devolución garantizada 30 días</span>
+            <span class="stat__note">Sin preguntas y con un solo clic si no cumple tus expectativas.</span>
+          </span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 8. ESPACIO DE TRABAJO ===================== -->
+  <section class="section" aria-labelledby="espacio-titulo">
+    <div class="container">
+      <div class="workspace card card--raised">
+        <img class="workspace__image" src="assets/images/escritorio-laptop.png"
+             alt="Escritorio de madera junto a una ventana, con un portátil que muestra FocusGuard, cuadernos, una taza y una planta."
+             width="663" height="420" loading="lazy" decoding="async">
+        <div class="workspace__content">
+          <p class="chip chip--amber">
+            <svg class="icon icon--sm" aria-hidden="true"><use href="#sun"></use></svg>
+            Espacio de trabajo consciente
+          </p>
+          <h2 id="espacio-titulo">Convierte tu escritorio en un lugar donde la concentración se sostiene</h2>
+          <p class="text-lead">
+            El entorno físico y las pausas periódicas son las dos herramientas más subestimadas del rendimiento cognitivo.
+          </p>
+          <p class="stat__note">Menos fatiga visual · Mayor retención a largo plazo</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 9. DESCARGA ===================== -->
+  <section class="section" id="descargar" aria-labelledby="descargar-titulo">
+    <div class="container">
+      <div class="cta">
+        <div class="cta__text">
+          <p class="chip chip--lowest">Listo en menos de 2 minutos</p>
+          <h2 id="descargar-titulo">Empieza a estudiar con foco y serenidad hoy mismo</h2>
+          <p class="cta__lead">
+            Gratis para estudiantes universitarios en iOS, Android y versión web de escritorio. Sin tarjeta de crédito.
+          </p>
+          <ul class="cta__stores">
+            <li>
+              <a class="btn btn--outline" href="#descargar" data-store="App Store">
+                <svg class="icon" aria-hidden="true"><use href="#smartphone"></use></svg>
+                Descargar en App Store
+              </a>
+            </li>
+            <li>
+              <a class="btn btn--outline" href="#descargar" data-store="Google Play">
+                <svg class="icon" aria-hidden="true"><use href="#play"></use></svg>
+                Disponible en Google Play
+              </a>
+            </li>
+            <li>
+              <a class="btn btn--outline" href="registrarse.html">
+                <svg class="icon" aria-hidden="true"><use href="#laptop"></use></svg>
+                Usar la versión web
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="cta__panel">
+          <figure class="qr">
+            <svg class="qr__code" viewBox="0 0 29 29" role="img" aria-label="Código QR de descarga de FocusGuard">
+              <rect width="29" height="29" fill="#ffffff"></rect>
+              <g fill="#1e1b4b">
+                <path d="M1 1h7v7H1zm1 1v5h5V2z"></path><path d="M3 3h3v3H3z"></path>
+                <path d="M21 1h7v7h-7zm1 1v5h5V2z"></path><path d="M23 3h3v3h-3z"></path>
+                <path d="M1 21h7v7H1zm1 1v5h5v-5z"></path><path d="M3 23h3v3H3z"></path>
+                <path d="M10 1h2v2h-2zm4 0h2v3h-2zm2 3h2v2h-2zm-6 2h3v2h-3zm5 1h2v2h-2z"></path>
+                <path d="M1 10h2v2H1zm4 0h3v2H5zm-4 4h3v2H1zm5 0h2v3H6zm-5 3h2v2H1z"></path>
+                <path d="M10 10h3v3h-3zm5 0h2v2h-2zm3 2h3v2h-3zm-8 4h2v3h-2zm4-1h3v2h-3zm5 1h2v2h-2z"></path>
+                <path d="M21 10h2v2h-2zm4 1h3v2h-3zm-3 3h2v3h-2zm4 1h2v2h-2z"></path>
+                <path d="M10 21h2v3h-2zm4 0h3v2h-3zm5 1h2v2h-2zm3-1h2v3h-2zm4 0h2v2h-2zM10 26h3v2h-3zm5 0h2v2h-2zm4-1h2v3h-2zm5 1h3v2h-3z"></path>
+              </g>
+            </svg>
+            <figcaption>
+              <span class="stat__label">Escanea para descargar</span>
+              <span class="stat__note">Apunta con la cámara de tu móvil para instalar la app.</span>
+            </figcaption>
+          </figure>
+
+          <form class="form cta__form" id="form-enlace" novalidate>
+            <div class="field">
+              <label class="field__label" for="enlace-email">Recibe el enlace de instalación en tu correo</label>
+              <div class="field__control">
+                <svg class="icon" aria-hidden="true"><use href="#mail"></use></svg>
+                <input class="input" type="email" id="enlace-email" name="email"
+                       placeholder="nombre@universidad.edu" autocomplete="email"
+                       required data-validate="email" aria-describedby="enlace-email-error">
+              </div>
+              <p class="field__error" id="enlace-email-error" data-error-for="enlace-email">
+                <svg class="icon" aria-hidden="true"><use href="#alert-circle"></use></svg>
+                <span></span>
+              </p>
+            </div>
+            <button class="btn btn--primary" type="submit">Enviarme el enlace</button>
+            <p class="text-small text-muted">Usamos tu correo solo para enviarte este enlace.</p>
+            <div class="form__feedback" role="status" aria-live="polite" data-feedback></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <a class="brand" href="index.html">
+          <img class="brand__mark" src="assets/images/logo.png" alt="" width="32" height="32">
+          <span class="brand__name">FocusGuard</span>
+        </a>
+        <p class="stat__note">
+          Estudio universitario con bienestar y autonomía cognitiva, sin diagnósticos invasivos ni culpabilidad.
+        </p>
+        <p class="status-dot stat__note">Cifrado local de extremo a extremo</p>
+      </div>
+
+      <nav aria-labelledby="footer-producto">
+        <h2 id="footer-producto">Producto</h2>
+        <ul>
+          <li><a href="#caracteristicas">Modo concentración</a></li>
+          <li><a href="#caracteristicas">Detección de fatiga</a></li>
+          <li><a href="#como-funciona">Pausas activas</a></li>
+          <li><a href="#caracteristicas">Estadísticas</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="footer-filosofia">
+        <h2 id="footer-filosofia">Filosofía</h2>
+        <ul>
+          <li><a href="#ciencia-y-etica">Privacidad local</a></li>
+          <li><a href="#ciencia-y-etica">Autonomía del estudiante</a></li>
+          <li><a href="#ciencia-y-etica">Diseño no invasivo</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="footer-recursos">
+        <h2 id="footer-recursos">Recursos</h2>
+        <ul>
+          <li><a href="#como-funciona">Guía de estudio</a></li>
+          <li><a href="#testimonios">Experiencias</a></li>
+          <li><a href="#descargar">Soporte</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="footer-cuenta">
+        <h2 id="footer-cuenta">Tu cuenta</h2>
+        <ul>
+          <li><a href="iniciar-sesion.html">Iniciar sesión</a></li>
+          <li><a href="registrarse.html">Crear cuenta</a></li>
+          <li><a href="#precios">Planes y precios</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>© 2026 FocusGuard Labs. Todos los derechos reservados.</p>
+      <p>Diseñado con empatía neuroergonómica para estudiantes de educación superior.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Ventana de demostración -->
+<div class="modal" id="modal-demo" role="dialog" aria-modal="true" aria-labelledby="modal-demo-titulo" hidden>
+  <div class="modal__backdrop" data-modal-close></div>
+  <div class="modal__dialog">
+    <div class="modal__head">
+      <h2 class="modal__title" id="modal-demo-titulo">Así acompaña FocusGuard una sesión</h2>
+      <button class="btn-icon" type="button" data-modal-close>
+        <svg class="icon" aria-hidden="true"><use href="#close"></use></svg>
+        <span class="visually-hidden">Cerrar ventana</span>
+      </button>
+    </div>
+    <div class="modal__body">
+      <ol class="modal__steps">
+        <li>Eliges la materia y la duración del bloque; la app se queda en segundo plano.</li>
+        <li>Si detecta cambios de tarea frecuentes, te propone una pausa con un aviso discreto.</li>
+        <li>Aceptas, pospones o sigues estudiando: la decisión siempre es tuya.</li>
+        <li>Al cerrar la sesión ves tu ritmo, sin puntuaciones ni comparaciones.</li>
+      </ol>
+      <p class="alert alert--info">
+        <svg class="icon" aria-hidden="true"><use href="#info"></use></svg>
+        El vídeo completo se incluirá en la versión publicada. Este resumen describe el mismo recorrido.
+      </p>
+    </div>
+    <div class="modal__foot">
+      <button class="btn btn--ghost" type="button" data-modal-close>Cerrar</button>
+      <a class="btn btn--primary" href="registrarse.html">Crear cuenta gratis</a>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmación para la demostración institucional -->
+<div class="modal" id="modal-demo-institucional" role="dialog" aria-modal="true" aria-labelledby="modal-institucional-titulo" hidden>
+  <div class="modal__backdrop" data-modal-close></div>
+  <div class="modal__dialog">
+    <div class="modal__head">
+      <h2 class="modal__title" id="modal-institucional-titulo">Solicitar una demostración para tu facultad</h2>
+      <button class="btn-icon" type="button" data-modal-close>
+        <svg class="icon" aria-hidden="true"><use href="#close"></use></svg>
+        <span class="visually-hidden">Cerrar ventana</span>
+      </button>
+    </div>
+    <div class="modal__body">
+      <p>Te contactamos en menos de dos días hábiles con una sesión guiada para tu equipo de orientación.</p>
+      <form class="form" id="form-institucional" novalidate>
+        <div class="field">
+          <label class="field__label" for="institucional-email">Correo institucional</label>
+          <div class="field__control">
+            <svg class="icon" aria-hidden="true"><use href="#mail"></use></svg>
+            <input class="input" type="email" id="institucional-email" name="email"
+                   placeholder="coordinacion@universidad.edu" autocomplete="email"
+                   required data-validate="email" aria-describedby="institucional-email-error">
+          </div>
+          <p class="field__error" id="institucional-email-error" data-error-for="institucional-email">
+            <svg class="icon" aria-hidden="true"><use href="#alert-circle"></use></svg>
+            <span></span>
+          </p>
+        </div>
+        <div class="modal__foot">
+          <button class="btn btn--ghost" type="button" data-modal-close>Cancelar</button>
+          <button class="btn btn--primary" type="submit">Enviar solicitud</button>
+        </div>
+        <div class="form__feedback" role="status" aria-live="polite" data-feedback></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="false"></div>
+</body>
+</html>
